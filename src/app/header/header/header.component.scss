@@ -1,0 +1,30 @@
+@import '../../../variables.scss';
+
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    height: 100%;
+    padding: 0px 20px;
+    gap: 10px;
+    color: #A0A5BA;
+    .mat-mdc-menu-trigger{
+        background-color: transparent;
+        border: none;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        color: $primary !important;
+        font-weight: 500;
+        font-size: 12px;
+        .userIcon{
+            color: $primary;
+            font-size: 18px;
+
+        }
+    }
+}
+
+

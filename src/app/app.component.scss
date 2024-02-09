@@ -1,0 +1,13 @@
+.container-fluid{
+    height: 100%;
+    padding: 0px;
+    display: grid;
+    grid-template-columns: 16% auto;
+    .bodycontainer{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        grid-row: 1 / 2 span;
+    }
+}

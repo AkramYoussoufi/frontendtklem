@@ -1,0 +1,12 @@
+<div class="header">
+    <fa-icon style="color:#A0A5BA;font-size: 18px;" [icon]="faBell"></fa-icon>
+    <button mat-button [matMenuTriggerFor]="menu">
+        <fa-icon class="userIcon" [icon]="faUser"></fa-icon>
+        Akram Youssoufi
+        <fa-icon style="color:#5aaefd;font-size: 8px;" [icon]="faAngleDown"></fa-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>Account Management</button>
+      <button mat-menu-item>Sign Out</button>
+    </mat-menu>
+</div>

@@ -6,22 +6,51 @@
     align-items: center;
     flex-direction: column;
     gap: 20px;
-
-    fa-icon{
-        color: $erster;
-    }
-    .title{
-        text-align: center;
-        font-size: 1.6rem;
-        font-weight: 900;
-        color: $primary;
+    .logo{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        fa-icon{
+            color: $erster;
+        }
+        .title{
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 900;
+            color: $primary;
+        }
     }
     .sidebar{
         height: 100%;
         display: flex;
-        align-items: center;
         justify-content: space-around;
         flex-direction: column;
+    }
+}
+
+:host {
+    ::ng-deep {
+        .p-button {
+            color: #A0A5BA;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            box-shadow: none;
+            fa-icon{
+                padding-right: 20px;
+            }
+            &:hover{
+                color: $primary;
+                box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+            }
+            &:active{
+                box-shadow: rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+                transition: 0s;
+            }
+            span{
+                text-decoration: none;
+            }
+        }
     }
 }
 

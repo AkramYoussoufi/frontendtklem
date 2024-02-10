@@ -2,17 +2,17 @@
     <div class="logo">
         <fa-icon [icon]="faGear" style=
         "
-        font-size: 5rem;
+        font-size: 4rem;
         "
             ></fa-icon>
-    </div>
-    <div class="title">
-        <div>Tklem Dashboard</div>
+            <div class="title">
+                <div>TKLEM</div>
+            </div>
     </div>
     <div class="sidebar">
-        <button>Gestion des comptes</button>
-        <button>Demande parent en attente</button>
-        <button>Gestion des étudiants</button>
-        <button>Logs de Système</button>
+        <p-button [rounded]="true" [link]="true"><fa-icon [icon]="faUsers"></fa-icon>Gestion des comptes</p-button>
+        <p-button [rounded]="true" [link]="true"><fa-icon [icon]="faUserClock"></fa-icon>Demande en attente</p-button>
+        <p-button [rounded]="true" [link]="true"><fa-icon [icon]="faUserGraduate"></fa-icon>Gestion des étudiants</p-button>
+        <p-button [rounded]="true" [link]="true"><fa-icon [icon]="faFileMedicalAlt"></fa-icon>Logs de Système</p-button>
     </div>
 </div>

@@ -10,9 +10,7 @@
             </div>
     </div>
     <div class="sidebar">
-        <p-button [rounded]="true" [link]="true"><fa-icon [icon]="faUsers"></fa-icon>Gestion des comptes</p-button>
-        <p-button [rounded]="true" [link]="true"><fa-icon [icon]="faUserClock"></fa-icon>Demande en attente</p-button>
-        <p-button [rounded]="true" [link]="true"><fa-icon [icon]="faUserGraduate"></fa-icon>Gestion des étudiants</p-button>
-        <p-button [rounded]="true" [link]="true"><fa-icon [icon]="faFileMedicalAlt"></fa-icon>Logs de Système</p-button>
+            <p-panelMenu [model]="items" [style]="{'width':'300px'}" [multiple]="true"></p-panelMenu>
     </div>
 </div>
+

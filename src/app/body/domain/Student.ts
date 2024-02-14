@@ -1,6 +1,5 @@
 export interface Student {
-    name: String;
-    masserCode: String;
-    formation: String;
-    created:String;
+  name: string;
+  masserCode: string;
+  formation: string;
 }

@@ -1,6 +1,19 @@
-.bodycomponent{
+.bodycomponent {
+  border-radius: 20px;
+  margin: 20px;
+  height: 100%;
+}
 
-    border-radius: 20px;
-    margin: 20px;
-    height: 100%;
+:host {
+  ::ng-deep {
+    .p-datatable {
+      font-size: 0.7rem !important;
+    }
+    .p-column-filter-menu {
+      padding: 0px !important;
+    }
+    .p-element {
+      font-size: 0.2rem !important;
+    }
+  }
 }

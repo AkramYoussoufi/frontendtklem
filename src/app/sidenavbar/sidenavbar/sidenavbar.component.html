@@ -1,16 +1,15 @@
 <div class="sidenavbar">
-    <div class="logo">
-        <fa-icon [icon]="faGear" style=
-        "
-        font-size: 4rem;
-        "
-            ></fa-icon>
-            <div class="title">
-                <div>TKLEM</div>
-            </div>
+  <div class="logo">
+    <fa-icon [icon]="faGear" style="font-size: 3rem"></fa-icon>
+    <div class="title">
+      <div>TKLEM</div>
     </div>
-    <div class="sidebar">
-            <p-panelMenu [model]="items" [style]="{'width':'300px'}" [multiple]="true"></p-panelMenu>
-    </div>
+  </div>
+  <div class="sidebar">
+    <p-panelMenu
+      [model]="items"
+      [style]="{ width: '300px' }"
+      [multiple]="true"
+    ></p-panelMenu>
+  </div>
 </div>
-

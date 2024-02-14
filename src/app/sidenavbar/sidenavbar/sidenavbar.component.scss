@@ -1,61 +1,62 @@
-@import '../../../variables.scss';
+@import "../../../variables.scss";
 
-.sidenavbar{
-    height: 100%;
+.sidenavbar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .logo {
     display: flex;
     align-items: center;
+    margin-right: 100px;
+    cursor: pointer;
+    fa-icon {
+      color: $erster;
+    }
+    .title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      color: $primary;
+    }
+  }
+  .sidebar {
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
     flex-direction: column;
-    gap: 20px;
-    .logo{
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        fa-icon{
-            color: $erster;
-        }
-        .title{
-            text-align: center;
-            font-size: 3rem;
-            font-weight: 900;
-            color: $primary;
-        }
-    }
-    .sidebar{
-        height: 100%;
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        flex-direction: column;
-    }
+  }
 }
 
 :host {
-    ::ng-deep {
-        .p-element{
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            .p-panelmenu-panel{
-                padding-top: 80px;
-                
-            }
-            .p-panelmenu-header-content{
-                border: none;
-                &:hover span,
-                &:hover .p-icon-wrapper{
-                    color: $primary !important;
-                }
-            }
-            .p-panelmenu-content{
-                border: none;
-            }
-            .p-menuitem-link{
-                &:hover span{
-                    color: $primary !important;
-                }
-            }
+  ::ng-deep {
+    .p-element {
+      font-size: 0.8rem;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      .p-panelmenu-panel {
+        padding-top: 20%;
+        padding-bottom: 20%;
+      }
+      .p-panelmenu-header-content {
+        border: none;
+        &:hover span,
+        &:hover .p-icon-wrapper {
+          color: $primary !important;
         }
+      }
+      .p-panelmenu-content {
+        border: none;
+      }
+      .p-menuitem-link {
+        &:hover span {
+          color: $primary !important;
+        }
+      }
     }
+  }
 }
-

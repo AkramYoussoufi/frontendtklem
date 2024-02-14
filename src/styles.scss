@@ -1,20 +1,30 @@
-@import 'variables';
+@import "variables";
 @import "primeicons/primeicons.css";
+@import "primeng/resources/primeng.css";
+@import "primeng/resources/themes/lara-light-blue/theme.css";
 
-
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-    background-color: $bg;
-    width: 100vmax;
-    height: 100vh;
-    padding: 30px 40px;
-    color: $text-color;
-    margin: 0px;
-    font-family: $font-family;
+body {
+  width: 100vmax;
+  height: 100vh;
+  padding: 30px;
+  margin: 0px;
+  font-family: $font-family;
+  background: $bg;
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+label {
+  font-size: 0.9rem;
+}
+
+.field {
+  margin-top: 20px;
 }
 
 //OVERRIDED DEFAULT LIBRARIES COMPONENTS
-

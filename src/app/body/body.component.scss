@@ -1,11 +1,14 @@
 .bodycomponent {
   border-radius: 20px;
-  margin: 20px;
+
   height: 100%;
 }
 
 :host {
   ::ng-deep {
+    .p-toolbar-group-left {
+      gap: 10px;
+    }
     .p-datatable {
       font-size: 0.7rem !important;
     }
@@ -14,6 +17,10 @@
     }
     .p-element {
       font-size: 0.2rem !important;
+    }
+    .p-fileupload-choose {
+      border: none;
+      background-color: #1e6d42;
     }
   }
 }

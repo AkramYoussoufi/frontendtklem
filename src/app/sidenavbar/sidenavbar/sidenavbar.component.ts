@@ -27,6 +27,10 @@ export class SidenavbarComponent implements OnInit {
         icon: 'pi pi-fw pi-users',
         items: [
           {
+            label: 'Admin',
+            icon: 'pi pi-briefcase',
+          },
+          {
             label: 'Parent',
             icon: 'pi pi-fw pi-user',
           },
@@ -45,7 +49,11 @@ export class SidenavbarComponent implements OnInit {
         icon: 'pi pi-fw pi-hourglass',
       },
       {
-        label: 'Étudiantes',
+        label: 'Les Étudiantes',
+        icon: 'pi pi-fw pi-book',
+      },
+      {
+        label: 'Les Classes',
         icon: 'pi pi-fw pi-book',
       },
     ];

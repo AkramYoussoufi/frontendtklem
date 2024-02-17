@@ -1,6 +1,6 @@
 export interface Student {
   id?: number;
   name?: string;
-  codeMassar?: string;
-  formation?: string;
+  massarCode?: string;
+  formationName?: string;
 }

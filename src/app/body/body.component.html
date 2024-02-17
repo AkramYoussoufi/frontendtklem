@@ -5,7 +5,7 @@
       <button
         pButton
         pRipple
-        label="New"
+        label="Ajouter"
         icon="pi pi-plus"
         class="p-button-success mr-2"
         (click)="openNew()"
@@ -16,7 +16,7 @@
         icon="pi pi-trash"
         class="p-button-danger"
         (click)="deleteSelectedStudents()"
-        label="Delete"
+        label="Supprimer"
         [disabled]="!selectedStudents || !selectedStudents.length"
       ></button>
     </ng-template>
@@ -47,7 +47,7 @@
     [paginator]="true"
     [rows]="10"
     [showCurrentPageReport]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    currentPageReportTemplate="Affichage {first} à {last} de {totalRecords} entrées"
     (onPage)="pageChange($event)"
     [rowsPerPageOptions]="[10, 25, 50, 100]"
   >
@@ -56,7 +56,7 @@
         <h5 style="font-size: 1rem" class="m-0">Tableau d'étudiants</h5>
         <button
           pButton
-          label="Clear"
+          label="Clair"
           class="p-button-outlined"
           icon="pi pi-filter-slash"
           (click)="clear(dt1)"
@@ -86,12 +86,12 @@
           <p-tableCheckbox [value]="student"></p-tableCheckbox>
         </td>
         <td>{{ student.name }}</td>
-        <td>{{ student.codeMassar }}</td>
+        <td>{{ student.massarCode }}</td>
         <td>
           <p-tag
             icon="pi pi-sitemap"
             severity="info"
-            value="{{ student.formation }}"
+            value="{{ student.formationName }}"
           ></p-tag>
         </td>
         <td
@@ -123,7 +123,7 @@
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="7">No students found.</td>
+        <td colspan="7">Aucun Étudiant Trouve</td>
       </tr>
     </ng-template>
   </p-table>
@@ -140,17 +140,17 @@
     <div class="field ng-star-inserted">
       <label for="formations">Formation</label>
       <p-dropdown
-        [(ngModel)]="student.formation"
-        inputId="formation"
+        [(ngModel)]="student.formationName"
+        inputId="formationName"
         [options]="formations"
       >
         <ng-template pTemplate="selectedItem">
-          <p-tag [value]="student.formation" severity="info"></p-tag>
+          <p-tag [value]="student.formationName" severity="info"></p-tag>
         </ng-template>
       </p-dropdown>
     </div>
     <div class="field ng-star-inserted">
-      <label for="name">Name</label>
+      <label for="name">Nom</label>
       <input
         type="text"
         pInputText
@@ -165,18 +165,18 @@
       >
     </div>
     <div class="field ng-star-inserted">
-      <label for="name">Code Massar</label>
+      <label for="name">Massar Code</label>
       <input
         type="text"
         pInputText
-        id="codeMassar"
-        [(ngModel)]="student.codeMassar"
+        id="massarCode"
+        [(ngModel)]="student.massarCode"
         required
         autofocus
         class="p-inputtext"
       />
-      <small class="p-error" *ngIf="submitted && !student.codeMassar"
-        >Code Massar is required.</small
+      <small class="p-error" *ngIf="submitted && !student.massarCode"
+        >Massar Code is required.</small
       >
     </div>
   </ng-template>

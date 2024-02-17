@@ -1,4 +1,9 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+} from '@angular/core';
 import { Student } from '../domain/Student';
 import { StudentService } from '../service/student.service';
 import { Table } from 'primeng/table/table';
@@ -32,14 +37,15 @@ export class BodyComponent implements OnInit, AfterViewInit {
     private studentService: StudentService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private formationService: FormationService
+    private formationService: FormationService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.cols = [
-      { field: 'name', header: 'Name', filter: true },
-      { field: 'codeMassar', header: 'Code Massar', filter: true },
-      { field: 'formation', header: 'Formation', filter: true },
+      { field: 'name', header: 'Nom', filter: true },
+      { field: 'massarCode', header: 'Massar Code', filter: true },
+      { field: 'formationName', header: 'Formation', filter: true },
     ];
     this.studentService.getAllStudents().subscribe(
       (data) => {
@@ -53,10 +59,8 @@ export class BodyComponent implements OnInit, AfterViewInit {
     this.formationService.getAllFormations().subscribe(
       (data) => {
         data.forEach((type: Formation) => {
-          console.log(type.name);
           this.formations.push(type.name);
         });
-        console.log(this.formations);
       },
       (error) => {
         console.error(error);
@@ -94,21 +98,34 @@ export class BodyComponent implements OnInit, AfterViewInit {
   }
 
   deleteSelectedStudents() {
+    const extractedIds = this.selectedStudents?.map((student) => student.id);
     this.confirmationService.confirm({
       message: 'Êtes-vous sûr de vouloir supprimer les étudiants sélectionnés?',
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.students = this.students.filter(
-          (val) => !this.selectedStudents?.includes(val)
+        this.studentService.deleteAllStudent(extractedIds).subscribe(
+          (data: any) => {
+            this.students = this.students.filter(
+              (val) => !this.selectedStudents?.includes(val)
+            );
+            this.selectedStudents = null;
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: data.message,
+              life: 3000,
+            });
+          },
+          (error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Failure',
+              detail: "échec de la suppression de l'objet sélectionné",
+              life: 3000,
+            });
+          }
         );
-        this.selectedStudents = null;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Selected Student Deleted',
-          life: 3000,
-        });
       },
     });
   }
@@ -130,14 +147,33 @@ export class BodyComponent implements OnInit, AfterViewInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.students = this.students.filter((val) => val.id !== student.id);
-        this.student = {};
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Student Deleted',
-          life: 3000,
-        });
+        this.studentService
+          .deleteStudent({
+            id: student.id,
+          })
+          .subscribe(
+            (data: any) => {
+              this.students = this.students.filter(
+                (val) => val.id !== student.id
+              );
+              this.student = {};
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: data.message,
+                life: 3000,
+              });
+            },
+            (error) => {
+              this.student = {};
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Failure',
+                detail: error.message,
+                life: 3000,
+              });
+            }
+          );
       },
     });
   }
@@ -163,22 +199,57 @@ export class BodyComponent implements OnInit, AfterViewInit {
     this.submitted = true;
 
     if (this.student.name?.trim()) {
+      const index: any = this.student.id;
       if (this.student.id) {
-        this.students[this.findIndexById(this.student.id)] = this.student;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Student Updated',
-          life: 3000,
-        });
+        this.studentService.editStudent(this.student).subscribe(
+          (data: any) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: "L'Objet a été modifiée avec succès",
+              life: 3000,
+            });
+            this.students[this.findIndexById(index)] = {
+              id: data.id,
+              name: data.name,
+              massarCode: data.massarCode,
+              formationName: data.formation.name,
+            };
+          },
+          (error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Failure',
+              detail: "échec de la modification de l'objet sélectionné",
+              life: 3000,
+            });
+          }
+        );
       } else {
-        this.students.push(this.student);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Successful',
-          detail: 'Student Created',
-          life: 3000,
-        });
+        this.studentService.addStudent(this.student).subscribe(
+          (data: any) => {
+            this.students.push({
+              id: data.id,
+              name: data.name,
+              massarCode: data.massarCode,
+              formationName: data.formation.name,
+            });
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Successful',
+              detail: 'Student Created',
+              life: 3000,
+            });
+          },
+          (error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Failure',
+              detail: error.error.message,
+              life: 3000,
+            });
+          }
+        );
       }
 
       this.students = [...this.students];

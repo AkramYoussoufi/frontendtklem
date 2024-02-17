@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Student } from '../domain/Student';
+import { Student } from '../../util/domain/Student';
 import { Environement } from 'src/Environement';
 
 @Injectable({

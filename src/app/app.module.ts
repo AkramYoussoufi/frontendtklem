@@ -17,9 +17,9 @@ import { TableModule } from 'primeng/table';
 
 //Components
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header/header.component';
-import { SidenavbarComponent } from './sidenavbar/sidenavbar/sidenavbar.component';
-import { BodyComponent } from './body/body.component';
+import { HeaderComponent } from './layout/header/header.component';
+import { SidenavbarComponent } from './layout/sidenavbar/sidenavbar.component';
+import { BodyComponent } from './layout/body/body.component';
 import { CheckboxModule } from 'primeng/checkbox';
 
 //NGPrime Modules
@@ -106,6 +106,11 @@ import { AnimateModule } from 'primeng/animate';
 import { CardModule } from 'primeng/card';
 import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AdminComponent } from './components/userManagement/admin/admin.component';
+import { RecepteurComponent } from './components/userManagement/recepteur/recepteur.component';
+import { ApprovalsComponent } from './components/approvals/approvals.component';
+import { StudentsComponent } from './components/students/students.component';
+import { FormationComponent } from './components/formation/formation.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +118,11 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
     HeaderComponent,
     SidenavbarComponent,
     BodyComponent,
+    AdminComponent,
+    RecepteurComponent,
+    ApprovalsComponent,
+    StudentsComponent,
+    FormationComponent,
   ],
   imports: [
     BrowserModule,

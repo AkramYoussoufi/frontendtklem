@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Environement } from 'src/Environement';
-import { Formation } from '../domain/Formation';
+import { Formation } from '../../util/domain/Formation';
 
 @Injectable({
   providedIn: 'root',

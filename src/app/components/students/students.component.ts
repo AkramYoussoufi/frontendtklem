@@ -4,27 +4,23 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
-import { Student } from '../domain/Student';
-import { StudentService } from '../service/student.service';
+import { Student } from '../../util/domain/Student';
+import { StudentService } from '../../service/api/student.service';
 import { Table } from 'primeng/table/table';
-import {
-  MessageService,
-  ConfirmationService,
-  LazyLoadEvent,
-} from 'primeng/api';
-import { FormationService } from '../service/formation.service';
-import { Formation } from '../domain/Formation';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { FormationService } from '../../service/api/formation.service';
+import { Formation } from '../../util/domain/Formation';
 
 @Component({
-  selector: 'app-body',
-  templateUrl: './body.component.html',
-  styleUrls: ['./body.component.scss'],
+  selector: 'app-students',
+  templateUrl: './students.component.html',
+  styleUrls: ['./students.component.scss'],
   providers: [MessageService, ConfirmationService],
 })
-export class BodyComponent implements OnInit, AfterViewInit {
-  students!: Student[];
-  student!: Student;
-  selectedStudents!: Student[] | null;
+export class StudentsComponent implements OnInit, AfterViewInit {
+  entitys!: Student[];
+  entity!: Student;
+  selectedEntitys!: Student[] | null;
   cols!: any[];
   formations: any[] = [];
   loading: boolean = true;
@@ -49,11 +45,11 @@ export class BodyComponent implements OnInit, AfterViewInit {
     ];
     this.studentService.getAllStudents().subscribe(
       (data) => {
-        this.students = data;
+        this.entitys = data;
         this.loading = false;
       },
       (error) => {
-        console.error(error);
+        this.loading = false;
       }
     );
     this.formationService.getAllFormations().subscribe(
@@ -62,9 +58,7 @@ export class BodyComponent implements OnInit, AfterViewInit {
           this.formations.push(type.name);
         });
       },
-      (error) => {
-        console.error(error);
-      }
+      (error) => {}
     );
   }
 
@@ -88,17 +82,15 @@ export class BodyComponent implements OnInit, AfterViewInit {
   }
 
   isLastPage(): boolean {
-    return this.students
-      ? this.first === this.students.length - this.rows
-      : true;
+    return this.entitys ? this.first === this.entitys.length - this.rows : true;
   }
 
   isFirstPage(): boolean {
-    return this.students ? this.first === 0 : true;
+    return this.entitys ? this.first === 0 : true;
   }
 
-  deleteSelectedStudents() {
-    const extractedIds = this.selectedStudents?.map((student) => student.id);
+  deleteSelectedEntitys() {
+    const extractedIds = this.selectedEntitys?.map((entity) => entity.id);
     this.confirmationService.confirm({
       message: 'Êtes-vous sûr de vouloir supprimer les étudiants sélectionnés?',
       header: 'Confirm',
@@ -106,10 +98,10 @@ export class BodyComponent implements OnInit, AfterViewInit {
       accept: () => {
         this.studentService.deleteAllStudent(extractedIds).subscribe(
           (data: any) => {
-            this.students = this.students.filter(
-              (val) => !this.selectedStudents?.includes(val)
+            this.entitys = this.entitys.filter(
+              (val) => !this.selectedEntitys?.includes(val)
             );
-            this.selectedStudents = null;
+            this.selectedEntitys = null;
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
@@ -131,17 +123,17 @@ export class BodyComponent implements OnInit, AfterViewInit {
   }
 
   openNew() {
-    this.student = {};
+    this.entity = {};
     this.submitted = false;
     this.entityDialog = true;
   }
 
-  editStudent(student: Student) {
-    this.student = { ...student };
+  editEntity(student: Student) {
+    this.entity = { ...student };
     this.entityDialog = true;
   }
 
-  deleteStudent(student: Student) {
+  deleteEntity(student: Student) {
     this.confirmationService.confirm({
       message: 'Etes-vous sûr que vous voulez supprimer ' + student.name + '?',
       header: 'Confirm',
@@ -153,10 +145,10 @@ export class BodyComponent implements OnInit, AfterViewInit {
           })
           .subscribe(
             (data: any) => {
-              this.students = this.students.filter(
+              this.entitys = this.entitys.filter(
                 (val) => val.id !== student.id
               );
-              this.student = {};
+              this.entity = {};
               this.messageService.add({
                 severity: 'success',
                 summary: 'Successful',
@@ -165,7 +157,7 @@ export class BodyComponent implements OnInit, AfterViewInit {
               });
             },
             (error) => {
-              this.student = {};
+              this.entity = {};
               this.messageService.add({
                 severity: 'error',
                 summary: 'Failure',
@@ -185,8 +177,8 @@ export class BodyComponent implements OnInit, AfterViewInit {
 
   findIndexById(id: number): number {
     let index = -1;
-    for (let i = 0; i < this.students.length; i++) {
-      if (this.students[i].id === id) {
+    for (let i = 0; i < this.entitys.length; i++) {
+      if (this.entitys[i].id === id) {
         index = i;
         break;
       }
@@ -198,10 +190,10 @@ export class BodyComponent implements OnInit, AfterViewInit {
   saveProduct() {
     this.submitted = true;
 
-    if (this.student.name?.trim()) {
-      const index: any = this.student.id;
-      if (this.student.id) {
-        this.studentService.editStudent(this.student).subscribe(
+    if (this.entity.name?.trim()) {
+      const index: any = this.entity.id;
+      if (this.entity.id) {
+        this.studentService.editStudent(this.entity).subscribe(
           (data: any) => {
             this.messageService.add({
               severity: 'success',
@@ -209,7 +201,7 @@ export class BodyComponent implements OnInit, AfterViewInit {
               detail: "L'Objet a été modifiée avec succès",
               life: 3000,
             });
-            this.students[this.findIndexById(index)] = {
+            this.entitys[this.findIndexById(index)] = {
               id: data.id,
               name: data.name,
               massarCode: data.massarCode,
@@ -226,9 +218,9 @@ export class BodyComponent implements OnInit, AfterViewInit {
           }
         );
       } else {
-        this.studentService.addStudent(this.student).subscribe(
+        this.studentService.addStudent(this.entity).subscribe(
           (data: any) => {
-            this.students.push({
+            this.entitys.push({
               id: data.id,
               name: data.name,
               massarCode: data.massarCode,
@@ -252,9 +244,9 @@ export class BodyComponent implements OnInit, AfterViewInit {
         );
       }
 
-      this.students = [...this.students];
+      this.entitys = [...this.entitys];
       this.entityDialog = false;
-      this.student = {};
+      this.entity = {};
     }
   }
 

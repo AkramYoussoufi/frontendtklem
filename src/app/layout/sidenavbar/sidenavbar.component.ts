@@ -29,32 +29,39 @@ export class SidenavbarComponent implements OnInit {
           {
             label: 'Admin',
             icon: 'pi pi-briefcase',
+            routerLink: 'admin',
           },
           {
             label: 'Parent',
             icon: 'pi pi-fw pi-user',
+            routerLink: 'parent',
           },
           {
             label: 'Recepteur',
             icon: 'pi pi-fw pi-qrcode',
+            routerLink: 'recepteur',
           },
           {
             label: 'Reciever',
             icon: 'pi pi-fw pi-wifi',
+            routerLink: 'reciever',
           },
         ],
       },
       {
         label: "En attente d'approbation",
         icon: 'pi pi-fw pi-hourglass',
+        routerLink: 'approbation',
       },
       {
         label: 'Les Étudiantes',
         icon: 'pi pi-fw pi-book',
+        routerLink: 'etudiants',
       },
       {
         label: 'Les Classes',
         icon: 'pi pi-fw pi-book',
+        routerLink: 'classes',
       },
     ];
   }

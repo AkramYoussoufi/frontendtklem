@@ -111,6 +111,7 @@ import { RecepteurComponent } from './components/userManagement/recepteur/recept
 import { ApprovalsComponent } from './components/approvals/approvals.component';
 import { StudentsComponent } from './components/students/students.component';
 import { FormationComponent } from './components/formation/formation.component';
+import { ParentComponent } from './components/userManagement/parent/parent.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { FormationComponent } from './components/formation/formation.component';
     ApprovalsComponent,
     StudentsComponent,
     FormationComponent,
+    ParentComponent,
   ],
   imports: [
     BrowserModule,
@@ -145,6 +147,9 @@ import { FormationComponent } from './components/formation/formation.component';
     TagModule,
     DialogModule,
     DropdownModule,
+    PasswordModule,
+    MultiSelectModule,
+    MessageModule
   ],
   providers: [],
   bootstrap: [AppComponent],

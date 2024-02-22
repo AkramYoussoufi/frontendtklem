@@ -42,7 +42,7 @@ export class AdminService {
   }
 
   editAdmin(data: any) {
-    return this.http.post(Environement.URL_API + 'api/admin/Admin/edit', data, {
+    return this.http.post(Environement.URL_API + 'api/admin/user/edit', data, {
       headers: this.headers,
     });
   }

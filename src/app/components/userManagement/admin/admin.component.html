@@ -68,23 +68,26 @@
 <p-dialog [(visible)]="entityDialog" [style]="{ width: '450px' }" header="Formulaire d'admin" [modal]="true"
     styleClass="p-fluid" class="p-dialog-content">
     <ng-template style="height: 1000px" pTemplate="content">
-        <div class="field ng-star-inserted">
+        <div class="field ng-star-inserted" style="padding-top: 35px;">
             <label for="status">Status</label>
-            <p-dropdown [(ngModel)]="entity.status" inputId="status" [options]="status">
-                <ng-template pTemplate="selectedItem">
-                    <p-tag [value]="status[0]" severity="danger"></p-tag>
-                </ng-template>
-            </p-dropdown>
+            <p-dropdown [showClear]="true" [(ngModel)]="selectedStatus" inputId="info" optionLabel="name"
+                [options]="status" />
         </div>
         <div class="field ng-star-inserted">
-            <label for="name">AdminName</label>
+            <label for="name">Username</label>
             <input type="text" pInputText id="name" [(ngModel)]="entity.email" required autofocus class="p-inputtext" />
-            <small class="p-error" *ngIf="submitted && !entity.email">AdminName is required.</small>
+            <small class="p-error" *ngIf="submitted && !entity.email">Username is required.</small>
         </div>
-        <div class="field ng-star-inserted">
+        <div class="field ng-star-inserted" style="padding-bottom: 35px;">
             <label for="name">Password</label>
-            <input type="text" pInputText id="name" [(ngModel)]="entity.email" required autofocus class="p-inputtext" />
-            <small class="p-error" *ngIf="submitted && !entity.email">AdminName is required.</small>
+            <p-password
+                mediumRegex="^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})"
+                [toggleMask]="true" [maxLength]="50" minlength="8" id="password" [(ngModel)]="entity.password" required
+                autofocus
+                weakLabel="Minimum 8 caractères & Utilisez des chiffres et des caractères minuscules et majuscules"
+                mediumLabel="Minimum 8 caractères & Utilisez des chiffres et des caractères minuscules et majuscules"
+                strongLabel="Le mot de passe est bien sécurisé" class="p-inputtext" />
+            <small class="p-error" *ngIf="submitted && !entity.password">Password is required.</small>
         </div>
     </ng-template>
 

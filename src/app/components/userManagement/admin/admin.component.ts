@@ -8,8 +8,6 @@ import { Admin } from '../../../util/domain/Admin';
 import { AdminService } from '../../../service/api/admin.service';
 import { Table } from 'primeng/table/table';
 import { MessageService, ConfirmationService } from 'primeng/api';
-import { FormationService } from '../../../service/api/formation.service';
-import { Formation } from '../../../util/domain/Formation';
 
 @Component({
   selector: 'app-admin',
@@ -20,9 +18,13 @@ import { Formation } from '../../../util/domain/Formation';
 export class AdminComponent implements OnInit, AfterViewInit {
   entitys!: Admin[];
   entity!: Admin;
-  selectedEntitys!: Admin[] | null;
+  selectedEntitys!: Admin[];
+  selectedStatus!: { boolean: boolean; name: string };
   cols!: any[];
-  status: any[] = ['Disabled', 'Enabled'];
+  status: any[] = [
+    { boolean: false, name: 'Disabled' },
+    { boolean: true, name: 'Enabled' },
+  ];
   loading: boolean = true;
   submitted: boolean = false;
   entityDialog: boolean = false;
@@ -33,19 +35,17 @@ export class AdminComponent implements OnInit, AfterViewInit {
     private adminService: AdminService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private formationService: FormationService,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
     this.cols = [
-      { field: 'email', header: 'Admin Name', filter: true },
+      { field: 'email', header: 'Username', filter: true },
       { field: 'password', header: 'Password', filter: true },
       { field: 'status', header: 'Status', filter: true },
     ];
     this.adminService.getAllAdmins().subscribe(
       (data) => {
-        console.log(data);
         this.entitys = data;
         this.loading = false;
       },
@@ -95,6 +95,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
   }
 
   editEntity(admin: Admin) {
+    admin.password = '';
     this.entity = { ...admin };
     this.entityDialog = true;
   }
@@ -139,6 +140,29 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.submitted = false;
   }
 
+  getStatus(status: boolean | undefined) {
+    console.log(status);
+    switch (status) {
+      case true:
+        return 'Enabled';
+      case false:
+        return 'Disabled';
+      default:
+        return 'Choisissez le statut';
+    }
+  }
+
+  getSeverity(status: boolean | undefined) {
+    switch (status) {
+      case true:
+        return 'success';
+      case false:
+        return 'error';
+      default:
+        return 'info';
+    }
+  }
+
   findIndexById(id: number): number {
     let index = -1;
     for (let i = 0; i < this.entitys.length; i++) {
@@ -153,62 +177,88 @@ export class AdminComponent implements OnInit, AfterViewInit {
 
   saveProduct() {
     this.submitted = true;
-
+    console.log({
+      id: this.entity.id,
+      email: this.entity.email,
+      password: this.entity.password,
+      status: this.selectedStatus.boolean,
+    });
     if (this.entity.email?.trim()) {
       const index: any = this.entity.id;
       if (this.entity.id) {
-        this.adminService.editAdmin(this.entity).subscribe(
-          (data: any) => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Successful',
-              detail: "L'Objet a été modifiée avec succès",
-              life: 3000,
-            });
-            this.entitys[this.findIndexById(index)] = {
-              /*id: data.id,
-              name: data.name,
-              massarCode: data.massarCode,
-              formationName: data.formation.name,*/
-            };
-          },
-          (error) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Failure',
-              detail: "échec de la modification de l'objet sélectionné",
-              life: 3000,
-            });
-          }
-        );
+        console.log({
+          id: this.entity.id,
+          email: this.entity.email,
+          password: this.entity.password,
+          status: this.selectedStatus.boolean,
+        });
+        this.adminService
+          .editAdmin({
+            id: this.entity.id,
+            email: this.entity.email,
+            password: this.entity.password,
+            status: this.selectedStatus.boolean,
+          })
+          .subscribe(
+            (data: any) => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: "L'Objet a été modifiée avec succès",
+                life: 3000,
+              });
+              this.entitys[this.findIndexById(index)] = {
+                id: data.id,
+                email: data.email,
+                password: data.password,
+                status: data.status,
+              };
+              this.entitys = [...this.entitys];
+            },
+            (error) => {
+              console.log(error);
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Failure',
+                detail: "échec de la modification de l'objet sélectionné",
+                life: 3000,
+              });
+            }
+          );
       } else {
-        this.adminService.addAdmin(this.entity).subscribe(
-          (data: any) => {
-            this.entitys.push({
-              /*               id: data.id,
-              name: data.name,
-              massarCode: data.massarCode,
-              formationName: data.formation.name, */
-            });
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Successful',
-              detail: 'Admin Created',
-              life: 3000,
-            });
-          },
-          (error) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Failure',
-              detail: error.error.message,
-              life: 3000,
-            });
-          }
-        );
+        this.adminService
+          .addAdmin({
+            id: null,
+            email: this.entity.email,
+            password: this.entity.password,
+            status: this.selectedStatus.boolean,
+          })
+          .subscribe(
+            (data: Admin) => {
+              this.entitys.push({
+                id: data.id,
+                email: data.email,
+                password: data.password,
+                status: data.status,
+              });
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Successful',
+                detail: 'Admin Created',
+                life: 3000,
+              });
+              this.entitys = [...this.entitys];
+            },
+            (error) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Failure',
+                detail: "échec de la ajoute de l'objet",
+                life: 3000,
+              });
+            }
+          );
       }
-
-      this.entitys = [...this.entitys];
       this.entityDialog = false;
       this.entity = {};
     }

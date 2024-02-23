@@ -113,6 +113,8 @@ import { StudentsComponent } from './components/students/students.component';
 import { FormationComponent } from './components/formation/formation.component';
 import { ParentComponent } from './components/userManagement/parent/parent.component';
 import { RecieverComponent } from './components/userManagement/reciever/reciever.component';
+import { LoginComponent } from './auth/login/login.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -127,6 +129,7 @@ import { RecieverComponent } from './components/userManagement/reciever/reciever
     FormationComponent,
     ParentComponent,
     RecieverComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -154,8 +157,9 @@ import { RecieverComponent } from './components/userManagement/reciever/reciever
     MessageModule,
     DataViewModule,
     AvatarModule,
+    ProgressSpinnerModule,
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

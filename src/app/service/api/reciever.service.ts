@@ -2,16 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Environement } from '../../../Environement';
 import { Reciever } from '../../util/domain/Reciever';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecieverService {
   headers: HttpHeaders = new HttpHeaders();
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cookieService: CookieService) {
     this.headers = this.headers
       .set('Content-Type', 'application/json')
-      .set('Authorization', 'Bearer ' + Environement.token);
+      .set('Authorization', this.cookieService.get('token'));
   }
 
   getAllRecievers() {

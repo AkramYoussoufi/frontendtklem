@@ -1,3 +1,9 @@
-<div class="bodycomponent">
-  <router-outlet></router-outlet>
+<div class="container-fluid">
+  <app-sidenavbar style="grid-row: 1 / span 2;"></app-sidenavbar>
+  <div class="bodycontainer">
+    <app-header style="height: 10%;width: 100%;"></app-header>
+    <div class="bodycomponent">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>

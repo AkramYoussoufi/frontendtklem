@@ -1,26 +1,20 @@
-.bodycomponent {
-  border-radius: 20px;
-
+.container-fluid {
   height: 100%;
+  padding: 0px;
+  display: grid;
+  grid-template-columns: 16% auto;
+  padding: 30px;
+  .bodycontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    grid-row: 1 / 2 span;
+  }
 }
 
-:host {
-  ::ng-deep {
-    .p-toolbar-group-left {
-      gap: 10px;
-    }
-    .p-datatable {
-      font-size: 0.7rem !important;
-    }
-    .p-column-filter-menu {
-      padding: 0px !important;
-    }
-    .p-element {
-      font-size: 0.2rem !important;
-    }
-    .p-fileupload-choose {
-      border: none;
-      background-color: #1e6d42;
-    }
-  }
+.bodycomponent {
+  border-radius: 20px;
+  height: 100%;
+  width: 100%;
 }

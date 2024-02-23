@@ -7,16 +7,32 @@ import { RecieverComponent } from './components/userManagement/reciever/reciever
 import { ApprovalsComponent } from './components/approvals/approvals.component';
 import { StudentsComponent } from './components/students/students.component';
 import { FormationComponent } from './components/formation/formation.component';
+import { BodyComponent } from './layout/body/body.component';
+import { LoginComponent } from './auth/login/login.component';
+import { MyGuardGuard } from './auth/login/my-guard.guard';
 
 const routes: Routes = [
-  { path: '', component: AdminComponent },
-  { path: 'admin', component: AdminComponent },
-  { path: 'parent', component: ParentComponent },
-  { path: 'recepteur', component: RecepteurComponent },
-  { path: 'reciever', component: RecieverComponent },
-  { path: 'approbation', component: ApprovalsComponent },
-  { path: 'etudiants', component: StudentsComponent },
-  { path: 'classes', component: FormationComponent },
+  {
+    path: 'dashboard',
+    component: BodyComponent,
+    canActivate: [MyGuardGuard],
+    children: [
+      { path: '', redirectTo: 'admin', pathMatch: 'full' },
+      { path: 'admin', component: AdminComponent },
+      { path: 'parent', component: ParentComponent },
+      { path: 'recepteur', component: RecepteurComponent },
+      { path: 'reciever', component: RecieverComponent },
+      { path: 'approbation', component: ApprovalsComponent },
+      { path: 'etudiants', component: StudentsComponent },
+      { path: 'classes', component: FormationComponent },
+    ],
+  },
+  // Other routes
+  { path: 'login', component: LoginComponent },
+  // Redirect any invalid route to the dashboard
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  // Handle wildcard routes or 404
+  { path: '**', redirectTo: 'dashboard' },
 ];
 
 @NgModule({

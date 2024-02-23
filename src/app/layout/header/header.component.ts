@@ -1,31 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   faUser,
   faAngleDown,
   faBell,
   faPowerOff,
 } from '@fortawesome/free-solid-svg-icons';
-import { MenuItem } from 'primeng/api';
 import { AdminService } from 'src/app/service/api/admin.service';
-import { Admin } from 'src/app/util/domain/Admin';
+import { AuthService } from 'src/app/service/api/auth.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   faUser = faUser;
   faAngleDown = faAngleDown;
   faBell = faBell;
   faPowerOff = faPowerOff;
   username!: string;
 
-  constructor(private adminService: AdminService) {}
+  constructor(
+    private adminService: AdminService,
+    private authService: AuthService
+  ) {
+    this.getCurrentLoggedUser();
+  }
 
-  ngOnInit(): void {
+  getCurrentLoggedUser() {
     this.adminService.getCurrentLoggedUser().subscribe((data: any) => {
       this.username = data.email;
+      console.log(this.username);
     });
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

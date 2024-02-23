@@ -1,0 +1,24 @@
+<div class="bodyLogin">
+    <div class="loginform">
+        <p-progressSpinner class="progress" *ngIf="loading"></p-progressSpinner>
+        <!-- Show spinner if loading is true -->
+        <h1>Se connecter</h1>
+        <p-messages [(value)]="messages" [enableService]="false"></p-messages>
+        <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+                <i class="pi pi-user"></i>
+            </span>
+            <input [(ngModel)]="login.email" pInputText placeholder="Username" />
+        </div>
+        <div class="p-inputgroup">
+            <span class="p-inputgroup-addon">
+                <i class="pi pi-hashtag"></i>
+            </span>
+            <input [(ngModel)]="login.password" ngMp type="password" pInputText placeholder="Mot de Passe" />
+        </div>
+        <div class="p-inputgroup">
+            <p-button [disabled]="loading" (onClick)="loginRequest()" [raised]="true" severity="info"
+                label="Connecter"></p-button>
+        </div>
+    </div>
+</div>

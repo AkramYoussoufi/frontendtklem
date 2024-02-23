@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 import { Environement } from 'src/Environement';
 import { Demande } from 'src/app/util/domain/Demande';
 
@@ -8,10 +9,10 @@ import { Demande } from 'src/app/util/domain/Demande';
 })
 export class DemandeService {
   headers: HttpHeaders = new HttpHeaders();
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cookieService: CookieService) {
     this.headers = this.headers
       .set('Content-Type', 'application/json')
-      .set('Authorization', 'Bearer ' + Environement.token);
+      .set('Authorization', this.cookieService.get('token'));
   }
 
   public getAllDemands() {

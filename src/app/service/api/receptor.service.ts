@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Environement } from 'src/Environement';
-import { Formation } from '../../util/domain/Formation';
+import { Receptor } from 'src/app/util/domain/Receptor';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FormationService {
+export class ReceptorService {
   headers: HttpHeaders = new HttpHeaders();
   constructor(private http: HttpClient) {
     this.headers = this.headers
@@ -14,17 +14,26 @@ export class FormationService {
       .set('Authorization', 'Bearer ' + Environement.token);
   }
 
-  getAllFormations() {
-    return this.http.get<Formation[]>(
-      Environement.URL_API + 'api/admin/formation/all',
+  getAllReceptors() {
+    return this.http.get<Receptor[]>(
+      Environement.URL_API + 'api/admin/receptor/all',
       {
         headers: this.headers,
       }
     );
   }
-  deleteFormation(data: any) {
+  addReceptor(data: any) {
     return this.http.post(
-      Environement.URL_API + 'api/admin/formation/delete',
+      Environement.URL_API + 'api/admin/receptor/add',
+      data,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+  deleteReceptor(data: any) {
+    return this.http.post(
+      Environement.URL_API + 'api/admin/receptor/delete',
       data,
       {
         headers: this.headers,
@@ -32,19 +41,9 @@ export class FormationService {
     );
   }
 
-  deleteAllFormations() {
+  deleteAllReceptors(data: any) {
     return this.http.post(
-      Environement.URL_API + 'api/admin/formation/deleteall',
-      {},
-      {
-        headers: this.headers,
-      }
-    );
-  }
-
-  addFormation(data: any) {
-    return this.http.post(
-      Environement.URL_API + 'api/admin/formation/add',
+      Environement.URL_API + 'api/admin/receptor/deleteall',
       data,
       {
         headers: this.headers,
@@ -52,9 +51,9 @@ export class FormationService {
     );
   }
 
-  editFormation(data: any) {
+  editReceptor(data: any) {
     return this.http.post(
-      Environement.URL_API + 'api/admin/formation/edit',
+      Environement.URL_API + 'api/admin/receptor/edit',
       data,
       {
         headers: this.headers,

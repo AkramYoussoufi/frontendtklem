@@ -1,12 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Environement } from 'src/Environement';
-import { Formation } from '../../util/domain/Formation';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Environement } from '../../../Environement';
+import { Reciever } from '../../util/domain/Reciever';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FormationService {
+export class RecieverService {
   headers: HttpHeaders = new HttpHeaders();
   constructor(private http: HttpClient) {
     this.headers = this.headers
@@ -14,17 +14,26 @@ export class FormationService {
       .set('Authorization', 'Bearer ' + Environement.token);
   }
 
-  getAllFormations() {
-    return this.http.get<Formation[]>(
-      Environement.URL_API + 'api/admin/formation/all',
+  getAllRecievers() {
+    return this.http.get<Reciever[]>(
+      Environement.URL_API + 'api/admin/reciever/all',
       {
         headers: this.headers,
       }
     );
   }
-  deleteFormation(data: any) {
+  addReciever(data: any) {
     return this.http.post(
-      Environement.URL_API + 'api/admin/formation/delete',
+      Environement.URL_API + 'api/admin/reciever/add',
+      data,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+  deleteReciever(data: any) {
+    return this.http.post(
+      Environement.URL_API + 'api/admin/reciever/delete',
       data,
       {
         headers: this.headers,
@@ -32,19 +41,9 @@ export class FormationService {
     );
   }
 
-  deleteAllFormations() {
+  deleteAllRecievers(data: any) {
     return this.http.post(
-      Environement.URL_API + 'api/admin/formation/deleteall',
-      {},
-      {
-        headers: this.headers,
-      }
-    );
-  }
-
-  addFormation(data: any) {
-    return this.http.post(
-      Environement.URL_API + 'api/admin/formation/add',
+      Environement.URL_API + 'api/admin/reciever/deleteall',
       data,
       {
         headers: this.headers,
@@ -52,9 +51,9 @@ export class FormationService {
     );
   }
 
-  editFormation(data: any) {
+  editReciever(data: any) {
     return this.http.post(
-      Environement.URL_API + 'api/admin/formation/edit',
+      Environement.URL_API + 'api/admin/reciever/edit',
       data,
       {
         headers: this.headers,

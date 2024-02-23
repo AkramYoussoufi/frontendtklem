@@ -105,7 +105,7 @@ export class StudentsComponent implements OnInit, AfterViewInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Successful',
-              detail: data.message,
+              detail: 'Tous les étudiants ont été supprimés',
               life: 3000,
             });
           },
@@ -113,7 +113,8 @@ export class StudentsComponent implements OnInit, AfterViewInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Failure',
-              detail: "échec de la suppression de l'objet sélectionné",
+              detail:
+                "Quelque chose s'est mal passé lors de la tentative de suppression d'un élève. Il s'agit probablement d'une demande d'un parent qui doit être traitée en premier",
               life: 3000,
             });
           }
@@ -152,7 +153,7 @@ export class StudentsComponent implements OnInit, AfterViewInit {
               this.messageService.add({
                 severity: 'success',
                 summary: 'Successful',
-                detail: data.message,
+                detail: "L'élève a été supprimé",
                 life: 3000,
               });
             },
@@ -161,7 +162,8 @@ export class StudentsComponent implements OnInit, AfterViewInit {
               this.messageService.add({
                 severity: 'error',
                 summary: 'Failure',
-                detail: error.message,
+                detail:
+                  "Quelque chose s'est mal passé lors de la tentative de suppression d'un élève. Il s'agit probablement d'une demande d'un parent qui doit être traitée en premier",
                 life: 3000,
               });
             }

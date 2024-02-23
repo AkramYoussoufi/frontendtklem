@@ -95,6 +95,16 @@
             <input type="text" pInputText id="name" [(ngModel)]="entity.email" required autofocus class="p-inputtext" />
             <small class="p-error" *ngIf="submitted && !entity.email">Email is required.</small>
         </div>
+        <div class="field ng-star-inserted">
+            <label for="name">Nom</label>
+            <input type="text" pInputText id="name" [(ngModel)]="entity.name" required autofocus class="p-inputtext" />
+            <small class="p-error" *ngIf="submitted && !entity.email">Nom is required.</small>
+        </div>
+        <div class="field ng-star-inserted">
+            <label for="name">CIN</label>
+            <input type="text" pInputText id="name" [(ngModel)]="entity.cin" required autofocus class="p-inputtext" />
+            <small class="p-error" *ngIf="submitted && !entity.cin">CIN is required.</small>
+        </div>
         <div class="field ng-star-inserted" style="padding-bottom: 35px;">
             <label for="name">Password</label>
             <p-password
@@ -105,16 +115,6 @@
                 mediumLabel="Minimum 8 caractères & Utilisez des chiffres et des caractères minuscules et majuscules"
                 strongLabel="Le mot de passe est bien sécurisé" class="p-inputtext" />
             <small class="p-error" *ngIf="submitted && !entity.password">Password is required.</small>
-        </div>
-        <div class="field ng-star-inserted">
-            <label for="name">Nom</label>
-            <input type="text" pInputText id="name" [(ngModel)]="entity.name" required autofocus class="p-inputtext" />
-            <small class="p-error" *ngIf="submitted && !entity.email">Nom is required.</small>
-        </div>
-        <div class="field ng-star-inserted">
-            <label for="name">CIN</label>
-            <input type="text" pInputText id="name" [(ngModel)]="entity.cin" required autofocus class="p-inputtext" />
-            <small class="p-error" *ngIf="submitted && !entity.cin">CIN is required.</small>
         </div>
     </ng-template>
 

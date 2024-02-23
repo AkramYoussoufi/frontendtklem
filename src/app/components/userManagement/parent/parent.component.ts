@@ -58,7 +58,6 @@ export class ParentComponent {
     ];
     this.parentService.getAllParents().subscribe(
       (data) => {
-        console.log(data);
         this.entitys = data;
         this.loading = false;
       },
@@ -118,7 +117,6 @@ export class ParentComponent {
   }
 
   deleteEntity(parent: Parent) {
-    this.loading = true;
     this.confirmationService.confirm({
       message: 'Etes-vous sûr que vous voulez supprimer ' + parent.email + '?',
       header: 'Confirm',
@@ -128,11 +126,6 @@ export class ParentComponent {
           .deleteParent({
             id: parent.id,
           })
-          .pipe(
-            finalize(() => {
-              this.loading = false;
-            })
-          )
           .subscribe(
             (data: any) => {
               this.entitys = this.entitys.filter((val) => val.id !== parent.id);

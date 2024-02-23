@@ -1,1 +1,58 @@
-<p>approvals works!</p>
+<p-toast></p-toast>
+
+<p-table #dt1 dataKey="id" [loading]="loading" [columns]="cols" [value]="demandes"
+    [tableStyle]="{ 'min-width': '50rem' }" sortMode="multiple" styleClass="p-datatable-sm" [paginator]="true"
+    [rows]="10" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Affichage {first} à {last} de {totalRecords} entrées" (onPage)="pageChange($event)"
+    [rowsPerPageOptions]="[10, 25, 50, 100]" rowGroupMode="subheader" groupRowsBy="id">
+    <ng-template pTemplate="caption">
+        <h1 class="m-0">Les Demandes en attendes d'approbation</h1>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+
+            <th *ngFor="let col of cols" pSortableColumn="{{ col.field }}">
+                <p-sortIcon field="{{ col.field }}"></p-sortIcon>
+                {{ col.header }}
+                <p-columnFilter type="text" field="{{ col.field }}" display="menu"></p-columnFilter>
+            </th>
+
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="groupheader" let-demande let-rowIndex="rowIndex" let-expanded="expanded">
+        <tr>
+            <td class="flex align-items-center justify-content-between" colspan="5">
+                <button type="button" pButton pRipple [pRowToggler]="demande"
+                    class="p-button-text p-button-rounded p-button-plain mr-2"
+                    [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                    style="color:white;background-color: #3A9DF9;"><span
+                        style="font-size: 1rem;color:white;padding-left:10px;"><i class="pi pi-user"
+                            style="color: white"></i> {{demande.name}}</span></button>
+            </td>
+            <td></td>
+            <td>
+                <button pButton pRipple icon="pi pi-check" class="p-button-rounded p-button-success mr-2"
+                    (click)="acceptDemande(demande.id)"><span style="padding-left: 10px;">Accepte</span></button>
+                <button pButton pRipple icon="pi pi-ban" class="p-button-rounded p-button-danger"
+                    (click)="declineDemande(demande.id)"><span style="padding-left: 10px;">Refuse</span></button>
+
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="rowexpansion" let-demande>
+        <tr *ngFor="let item of demande.students">
+            <td>{{ item.name }}</td>
+            <td>{{ item.massarCode }}</td>
+            <td>
+                <p-tag icon="pi pi-sitemap" severity="info" value="{{ item.formation.name }}"></p-tag>
+            </td>
+
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="7">Aucun Demande Trouve</td>
+        </tr>
+    </ng-template>
+</p-table>

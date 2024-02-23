@@ -1,1 +1,52 @@
-<p>formation works!</p>
+<p-toast></p-toast>
+<p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+        <button pButton pRipple label="Ajouter" icon="pi pi-plus" class="p-button-success mr-2"
+            (click)="openNew()"></button>
+    </ng-template>
+
+    <ng-template pTemplate="right">
+        <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedEntitys()"
+            label="Supprimer Tout"></button>
+    </ng-template>
+</p-toolbar>
+<p-dataView #dv [value]="formations" [rows]="5" [paginator]="true">
+    <ng-template let-formation pTemplate="listItem">
+        <div class="col-12">
+            <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
+                <p-avatar label={{getFirstLetterUpperCase(formation.name)}} styleClass="mr-2" size="xlarge"></p-avatar>
+                <div class="flex flex-column sm:flex-row justify-content-between align-items-center  flex-1 gap-4">
+                    <div class="flex flex-column align-items-center sm:align-items-start gap-3">
+                        <div class="text-2xl font-bold text-900">{{ formation.name }}</div>
+                    </div>
+                    <div class="flex sm:flex-row align-items-center sm:align-items-end gap-3 sm:gap-2">
+                        <button pButton icon="pi pi-pencil" (click)="editEntity(formation)"
+                            class="md:align-self-end mb-2 p-button-rounded p-button-warning"></button>
+                        <button pButton icon="pi pi-trash" (click)="deleteEntity(formation)"
+                            class="md:align-self-end mb-2 p-button-rounded p-button-danger"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-dataView>
+
+<p-dialog [(visible)]="entityDialog" [style]="{ width: '450px' }" header="Formulaire d'étudiant" [modal]="true"
+    styleClass="p-fluid" class="p-dialog-content">
+    <ng-template style="height: 1000px" pTemplate="content">
+        <div class="field ng-star-inserted">
+            <label for="name">Nom du formation</label>
+            <input type="text" pInputText id="name" [(ngModel)]="formation.name" required autofocus
+                class="p-inputtext" />
+            <small class="p-error" *ngIf="submitted && !formation.name">Name is required.</small>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Fermer" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Ajouter" icon="pi pi-check" class="p-button-text"
+            (click)="saveProduct()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>

@@ -20,16 +20,24 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.cookieService.delete('token');
+  }
 
   loginRequest() {
     this.loading = true;
+    this.cookieService.delete('token');
     this.authService.loginRequest(this.login).subscribe(
       (data: any) => {
+        this.cookieService.delete('token');
         const oneYearFromNow = new Date();
         oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
         this.cookieService.set('token', data.token, oneYearFromNow);
-        this.router.navigate(['/dashboard']);
+        if (data.role == 'ADMIN') {
+          this.router.navigate(['/dashboard/approbation']);
+        } else if (data.role == 'RECIEVER') {
+          this.router.navigate(['/reciever']);
+        }
         this.loading = false;
       },
       (error) => {

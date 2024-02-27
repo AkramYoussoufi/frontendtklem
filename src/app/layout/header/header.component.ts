@@ -30,7 +30,6 @@ export class HeaderComponent {
   getCurrentLoggedUser() {
     this.adminService.getCurrentLoggedUser().subscribe((data: any) => {
       this.username = data.email;
-      console.log(this.username);
     });
   }
 

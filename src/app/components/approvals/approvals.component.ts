@@ -35,7 +35,6 @@ export class ApprovalsComponent {
     ];
     this.demandeService.getAllDemands().subscribe(
       (data) => {
-        console.log(data);
         this.demandes = data;
       },
       (error) => {
@@ -48,7 +47,6 @@ export class ApprovalsComponent {
         });
       }
     );
-    console.log(this.demandes);
   }
 
   next() {

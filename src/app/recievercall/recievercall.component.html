@@ -1,0 +1,32 @@
+<div class="container-fluid">
+    <div class="bodycontainer">
+        <div class="logo">
+            <fa-icon [icon]="faGear" style="font-size: 3rem"></fa-icon>
+            <div class="title">
+                <div>TKLEM</div>
+            </div>
+        </div>
+        <div><app-header></app-header></div>
+    </div>
+    <div class="bodycomponent">
+        <i style="font-size: 20rem;" class="pi pi-bell"></i>
+        <h2>Vous êtes connecté, vous recevrez des notifications à venir concernant les demandes des parents, veuillez
+            garder cette fenêtre ouverte.</h2>
+        <div
+            style="display: flex;align-items: center;justify-content: center;position: absolute;width: 100%;height: 100%;gap:10px">
+            <p-card *ngFor="let entity of entitys, let i = index" header="{{entity.name}}" [style]="{ padding:'50px' }">
+                <ng-template pTemplate="header">
+                    <div style="font-size: 10rem;color:#1E8FF8;" alt="Card" class="pi pi-user">
+                    </div>
+                </ng-template>
+                <p-tag icon="pi pi-sitemap" severity="info" value="{{ entity.formationName }}"></p-tag>
+                <ng-template pTemplate="footer">
+                    <p-button (onClick)="close(i)" label="Fermer" icon="pi pi-times"
+                        styleClass="p-button-danger"></p-button>
+                </ng-template>
+            </p-card>
+        </div>
+    </div>
+
+
+</div>

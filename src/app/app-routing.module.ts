@@ -10,14 +10,14 @@ import { FormationComponent } from './components/formation/formation.component';
 import { BodyComponent } from './layout/body/body.component';
 import { LoginComponent } from './auth/login/login.component';
 import { MyGuardGuard } from './auth/login/my-guard.guard';
-
+import { RecieverCallComponent } from './recievercall/recievercall.component';
 const routes: Routes = [
   {
     path: 'dashboard',
     component: BodyComponent,
     canActivate: [MyGuardGuard],
     children: [
-      { path: '', redirectTo: 'admin', pathMatch: 'full' },
+      { path: '', redirectTo: 'auth', pathMatch: 'full' },
       { path: 'admin', component: AdminComponent },
       { path: 'parent', component: ParentComponent },
       { path: 'recepteur', component: RecepteurComponent },
@@ -26,6 +26,11 @@ const routes: Routes = [
       { path: 'etudiants', component: StudentsComponent },
       { path: 'classes', component: FormationComponent },
     ],
+  },
+  {
+    path: 'reciever',
+    component: RecieverCallComponent,
+    canActivate: [MyGuardGuard],
   },
   // Other routes
   { path: 'login', component: LoginComponent },

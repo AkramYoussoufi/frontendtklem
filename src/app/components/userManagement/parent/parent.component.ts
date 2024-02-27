@@ -13,14 +13,7 @@ import { Student } from 'src/app/util/domain/Student';
   styleUrls: ['./parent.component.scss'],
 })
 export class ParentComponent {
-  messages: Message[] = [
-    {
-      severity: 'warn',
-      summary: 'Warning',
-      detail:
-        "Vous n'avez pas le droit de modifier les informations des parents uniquement sur demande de leur part et si vous le faites, ils seront informés de tout changement dans leur adresse e-mail, tout changement entraînera la réinitialisation du mot de passe.",
-    },
-  ];
+  messages: Message[] = [];
 
   entitys!: Parent[];
   entity!: Parent;

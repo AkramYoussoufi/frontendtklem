@@ -23,6 +23,16 @@ export class RecieverService {
       }
     );
   }
+
+  getCurrentReciever() {
+    return this.http.get<Reciever[]>(
+      Environement.URL_API + 'api/reciever/current',
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
   addReciever(data: any) {
     return this.http.post(
       Environement.URL_API + 'api/admin/reciever/add',

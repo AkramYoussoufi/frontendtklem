@@ -1,0 +1,39 @@
+@import "../../variables.scss";
+
+.container-fluid {
+  height: 100%;
+  padding: 0px;
+  padding: 30px;
+  .bodycontainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    height: 10%;
+
+    .logo {
+      display: flex;
+      align-items: center;
+      margin-right: 100px;
+      cursor: pointer;
+      fa-icon {
+        color: $erster;
+      }
+      .title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: 900;
+        color: $primary;
+      }
+    }
+  }
+  .bodycomponent {
+    border-radius: 20px;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+  }
+}

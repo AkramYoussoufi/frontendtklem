@@ -21,10 +21,11 @@ import { Environement } from 'src/Environement';
 })
 export class RecieverCallComponent implements OnInit {
   faGear = faGear;
-  isPlaying: boolean = false;
   audio!: HTMLAudioElement;
   myFormation: string = '';
-  entitys: { name: string; formationName: string }[] = [];
+  entitys: { name: string; formationName: string }[] = [
+    { name: 'asdasd', formationName: 'asdasd' },
+  ];
   private webSocket: WebSocket;
   constructor(
     private recieverService: RecieverService,
@@ -65,8 +66,6 @@ export class RecieverCallComponent implements OnInit {
       }
     );
     this.webSocket.onmessage = (event: any) => {
-      console.log(JSON.parse(event.data));
-      console.log(this.myFormation);
       if (this.myFormation == JSON.parse(event.data).formationName) {
         this.entitys = [...this.entitys, JSON.parse(event.data)];
         this.playAudio();
@@ -77,20 +76,22 @@ export class RecieverCallComponent implements OnInit {
 
   close(index: number) {
     this.entitys = this.entitys.filter((entity, i) => i !== index);
-    console.log(this.entitys);
-    if (this.entitys.length == 0) {
-      this.stopAudio();
-    }
+    this.stopAudio();
+  }
+
+  accept(index: number) {
+    this.close(index);
+  }
+  refuse(index: number) {
+    this.close(index);
   }
 
   playAudio() {
     this.audio.play();
-    this.isPlaying = true;
   }
 
   stopAudio() {
     this.audio.pause();
     this.audio.currentTime = 0;
-    this.isPlaying = false;
   }
 }

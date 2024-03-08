@@ -9,15 +9,16 @@
 
 body {
   width: 100vmax;
-  min-width: 1300px;
+  min-width: 1750px;
+  min-height: 750px;
   height: 100vh;
-
   margin: 0px;
   font-family: $font-family;
   background: $bg;
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: scroll;
 }
 
 label {
@@ -29,3 +30,30 @@ label {
 }
 
 //OVERRIDED DEFAULT LIBRARIES COMPONENTS
+.p-toolbar-group-left {
+  gap: 10px;
+}
+.p-datatable {
+  font-size: 1rem !important;
+}
+.p-column-filter-menu {
+  padding: 0px !important;
+}
+.p-element {
+  font-size: 1rem !important;
+}
+.p-fileupload-choose {
+  border: none;
+  background-color: #1e6d42;
+}
+
+.p-card-content,
+.p-card-title {
+  text-align: center;
+}
+
+.p-card-footer {
+  button {
+    margin: 5px;
+  }
+}

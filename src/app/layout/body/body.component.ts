@@ -14,6 +14,7 @@ export class BodyComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit(): void {
     this.authService.checkJWT().subscribe((data: any) => {
+      console.log(data);
       if (data.role == 'RECIEVER') {
         this.router.navigate(['/reciever']);
       } else if (data.role != 'ADMIN') {

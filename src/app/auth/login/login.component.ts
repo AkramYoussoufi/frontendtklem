@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DoCheck, OnInit } from '@angular/core';
 import { Message } from 'primeng/api';
 import { AuthService } from '../../service/api/auth.service';
 import { CookieService } from 'ngx-cookie-service';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   messages!: Message[];
   login = { email: '', password: '' };
   loading = false;
@@ -19,10 +19,6 @@ export class LoginComponent implements OnInit {
     private cookieService: CookieService,
     private router: Router
   ) {}
-
-  ngOnInit(): void {
-    this.cookieService.delete('token');
-  }
 
   loginRequest() {
     this.loading = true;

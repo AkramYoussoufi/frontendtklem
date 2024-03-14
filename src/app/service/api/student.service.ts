@@ -10,6 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class StudentService {
   headers: HttpHeaders = new HttpHeaders();
+
   constructor(private http: HttpClient, private cookieService: CookieService) {
     this.headers = this.headers
       .set('Content-Type', 'application/json')
@@ -24,9 +25,26 @@ export class StudentService {
       }
     );
   }
+  getAllStudentLogs() {
+    return this.http.get<Student[]>(
+      Environement.URL_API + 'api/admin/student/studentlog/all',
+      {
+        headers: this.headers,
+      }
+    );
+  }
   addStudent(data: any) {
     return this.http.post(
       Environement.URL_API + 'api/admin/student/add',
+      data,
+      {
+        headers: this.headers,
+      }
+    );
+  }
+  addAllStudents(data: any) {
+    return this.http.post(
+      Environement.URL_API + 'api/admin/student/add/all',
       data,
       {
         headers: this.headers,

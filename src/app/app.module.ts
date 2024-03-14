@@ -50,6 +50,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { RecieverCallComponent } from './recievercall/recievercall.component';
 import { WebsocketService } from './service/socket/websocket.service';
+import { StudentlogComponent } from './components/studentlog/studentlog.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { WebsocketService } from './service/socket/websocket.service';
     RecieverComponent,
     LoginComponent,
     RecieverCallComponent,
+    StudentlogComponent,
   ],
   imports: [
     BrowserModule,

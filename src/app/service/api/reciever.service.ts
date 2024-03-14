@@ -71,4 +71,10 @@ export class RecieverService {
       }
     );
   }
+
+  logStudent(data: any) {
+    return this.http.post(Environement.URL_API + 'api/reciever/accept', data, {
+      headers: this.headers,
+    });
+  }
 }

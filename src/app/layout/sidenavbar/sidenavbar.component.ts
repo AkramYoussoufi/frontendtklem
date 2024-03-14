@@ -59,6 +59,11 @@ export class SidenavbarComponent implements OnInit {
         routerLink: 'etudiants',
       },
       {
+        label: 'Suivi des étudiants',
+        icon: 'pi pi-fw pi-info-circle',
+        routerLink: 'etudiantslog',
+      },
+      {
         label: 'Les Classes',
         icon: 'pi pi-fw pi-book',
         routerLink: 'classes',

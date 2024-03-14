@@ -17,7 +17,7 @@
     <ng-template pTemplate="caption">
 
         <div class="flex">
-            <h5 style="font-size: 1rem" class="m-0">Tableau des parents</h5>
+
             <button pButton label="Clair" class="p-button-outlined" icon="pi pi-filter-slash"
                 (click)="clear(dt1)"></button>
         </div>
@@ -26,7 +26,6 @@
         <tr>
             <th><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
             <th *ngFor="let col of cols" pSortableColumn="{{ col.field }}">
-
                 <p-sortIcon field="{{ col.field }}"></p-sortIcon>
                 {{ col.header }}
                 <p-columnFilter type="text" field="{{ col.field }}" display="menu"></p-columnFilter>
@@ -58,12 +57,7 @@
                     <p-tag icon="pi pi-lock" severity="danger" value="Disabled"></p-tag>
                 </ng-template>
             </td>
-            <td style="
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              gap: 5px;
-            ">
+            <td>
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
                     (click)="editEntity(entity)" style="width: 30px; height: 30px"></button>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"

@@ -11,6 +11,7 @@ import { BodyComponent } from './layout/body/body.component';
 import { LoginComponent } from './auth/login/login.component';
 import { MyGuardGuard } from './auth/login/my-guard.guard';
 import { RecieverCallComponent } from './recievercall/recievercall.component';
+import { StudentlogComponent } from './components/studentlog/studentlog.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'approbation', component: ApprovalsComponent },
       { path: 'etudiants', component: StudentsComponent },
       { path: 'classes', component: FormationComponent },
+      { path: 'etudiantslog', component: StudentlogComponent },
     ],
   },
   {

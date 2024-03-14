@@ -10,6 +10,13 @@ import { Table } from 'primeng/table/table';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { FormationService } from '../../service/api/formation.service';
 import { Formation } from '../../util/domain/Formation';
+import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
+
+interface UploadEvent {
+  originalEvent: Event;
+  files: File[];
+}
 
 @Component({
   selector: 'app-students',
@@ -34,7 +41,7 @@ export class StudentsComponent implements OnInit, AfterViewInit {
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private formationService: FormationService,
-    private cdr: ChangeDetectorRef
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -63,6 +70,43 @@ export class StudentsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {}
+
+  onUpload(event: UploadEvent) {
+    const selectedFile = event.files[0];
+    const fileReader = new FileReader();
+    fileReader.readAsBinaryString(selectedFile);
+    fileReader.onload = (file: any) => {
+      let binaryData = file.target.result;
+      let workbook = XLSX.read(binaryData, { type: 'binary' });
+      workbook.SheetNames.forEach((sheet) => {
+        const data: any = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
+
+        const formation = data[5].I;
+        const rows: any = data.slice(7);
+        const resdata: any = [];
+        rows.forEach((element: any) => {
+          resdata.push({
+            name: element.F + ' ' + element.D,
+            massarCode: element.C,
+            formationName: formation,
+          });
+        });
+        this.studentService.addAllStudents(resdata).subscribe(
+          (data) => {
+            window.location.reload();
+          },
+          (error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Failure',
+              detail: "Quelque chose s'est mal passé lors de la tentative.",
+              life: 3000,
+            });
+          }
+        );
+      });
+    };
+  }
 
   next() {
     this.first = this.first + this.rows;

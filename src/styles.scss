@@ -9,8 +9,6 @@
 
 body {
   width: 100vmax;
-  min-width: 1750px;
-  min-height: 750px;
   height: 100vh;
   margin: 0px;
   font-family: $font-family;
@@ -18,7 +16,7 @@ body {
   color: var(--text-color);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: scroll;
+  overflow: auto;
 }
 
 label {

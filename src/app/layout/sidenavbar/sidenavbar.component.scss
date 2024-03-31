@@ -1,5 +1,9 @@
 @import "../../../variables.scss";
 
+.sidebar li a span {
+  margin-left: 0.1rem !important; /* Reduce the margin to decrease space */
+}
+
 .sidenavbar {
   height: 100%;
   display: flex;

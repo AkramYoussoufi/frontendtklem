@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { Admin } from '../../../util/domain/Admin';
 import { AdminService } from '../../../service/api/admin.service';
-import { Table } from 'primeng/table/table';
 import { MessageService, ConfirmationService } from 'primeng/api';
 
 @Component({
@@ -18,9 +17,7 @@ import { MessageService, ConfirmationService } from 'primeng/api';
 export class AdminComponent implements OnInit, AfterViewInit {
   entitys!: Admin[];
   entity!: Admin;
-  selectedEntitys!: Admin[];
   selectedStatus!: { boolean: boolean; name: string };
-  cols!: any[];
   status: any[] = [
     { boolean: false, name: 'Disabled' },
     { boolean: true, name: 'Enabled' },
@@ -30,7 +27,11 @@ export class AdminComponent implements OnInit, AfterViewInit {
   entityDialog: boolean = false;
   first = 0;
   rows = 10;
-
+  displayedEntitys: Admin[] = [];
+  filteredEntitys: Admin[] = [];
+  itemsPerPage = 5;
+  showConfirmDialog = false;
+  adminToDelete: Admin | null = null;
   constructor(
     private adminService: AdminService,
     private messageService: MessageService,
@@ -39,15 +40,12 @@ export class AdminComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.cols = [
-      { field: 'email', header: 'Username', filter: true },
-      { field: 'password', header: 'Password', filter: true },
-      { field: 'status', header: 'Status', filter: true },
-    ];
     this.adminService.getAllAdmins().subscribe(
       (data) => {
         this.entitys = data;
+        this.filteredEntitys = data; 
         this.loading = false;
+        this.updateDisplayedEntities();
       },
       (error) => {
         this.loading = false;
@@ -62,31 +60,69 @@ export class AdminComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {}
+ 
+  onSearch(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const searchValue = target.value.toLowerCase();
 
+    this.filteredEntitys = this.entitys.filter(entity => 
+        entity.email?.toLowerCase().includes(searchValue) ||
+        entity.password?.toLowerCase().includes(searchValue) ||
+        (entity.status ? 'Enabled' : 'Disabled').toLowerCase().includes(searchValue)
+    );
+
+    this.first = 0;
+    this.updateDisplayedEntities();
+  }
+  get currentPage(): number {
+    return Math.floor(this.first / this.itemsPerPage) + 1;
+  }
+  
+  get totalPages(): number {
+    return Math.ceil(this.filteredEntitys.length / this.itemsPerPage);
+}
   next() {
-    this.first = this.first + this.rows;
-  }
+    const nextFirst = this.first + this.itemsPerPage;
+    if (nextFirst < this.filteredEntitys.length) {
+        this.first = nextFirst;
+        this.updateDisplayedEntities();
+    }
+}
 
-  prev() {
-    this.first = this.first - this.rows;
-  }
+prev() {
+    const prevFirst = this.first - this.itemsPerPage;
+    if (prevFirst >= 0) {
+        this.first = prevFirst;
+        this.updateDisplayedEntities();
+    } else {
+        this.first = 0;
+        this.updateDisplayedEntities();
+    }
+}
 
+updateDisplayedEntities() {
+  const endIndex = this.first + this.itemsPerPage;
+  this.displayedEntitys = this.filteredEntitys.slice(this.first, endIndex);
+}
   reset() {
     this.first = 0;
+    this.updateDisplayedEntities();
   }
+  
+
 
   pageChange(event: any) {
     this.first = event.first;
     this.rows = event.rows;
   }
 
-  isLastPage(): boolean {
-    return this.entitys ? this.first === this.entitys.length - this.rows : true;
-  }
-
   isFirstPage(): boolean {
-    return this.entitys ? this.first === 0 : true;
-  }
+    return this.first === 0;
+}
+
+isLastPage(): boolean {
+    return this.first + this.itemsPerPage >= this.filteredEntitys.length;
+}
 
   openNew() {
     this.entity = {};
@@ -99,13 +135,24 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.entity = { ...admin };
     this.entityDialog = true;
   }
+  openConfirmDialog(admin: Admin) {
+    this.adminToDelete = admin;
+    this.showConfirmDialog = true;
+  }
 
+  cancelDelete() {
+    this.showConfirmDialog = false;
+    this.adminToDelete = null;
+  }
+  confirmDelete() {
+    if (this.adminToDelete) {
+      this.deleteEntity(this.adminToDelete);
+      this.adminToDelete = null;
+      this.showConfirmDialog = false;
+    }
+  }
   deleteEntity(admin: Admin) {
-    this.confirmationService.confirm({
-      message: 'Etes-vous sûr que vous voulez supprimer ' + admin.email + '?',
-      header: 'Confirm',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
+  
         this.adminService
           .deleteAdmin({
             id: admin.id,
@@ -113,6 +160,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
           .subscribe(
             (data: any) => {
               this.entitys = this.entitys.filter((val) => val.id !== admin.id);
+              this.filteredEntitys = this.filteredEntitys.filter((val) => val.id !== admin.id);
               this.entity = {};
               this.messageService.add({
                 severity: 'success',
@@ -120,6 +168,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
                 detail: data.message,
                 life: 3000,
               });
+              this.updateDisplayedEntities();
             },
             (error) => {
               this.entity = {};
@@ -131,8 +180,8 @@ export class AdminComponent implements OnInit, AfterViewInit {
               });
             }
           );
-      },
-    });
+     
+    this.updateDisplayedEntities();
   }
 
   hideDialog() {
@@ -201,19 +250,27 @@ export class AdminComponent implements OnInit, AfterViewInit {
           })
           .subscribe(
             (data: any) => {
+              const index = this.findIndexById(data.id);
+              if (index !== -1) {
+                this.entitys[index] = data;
+               
+                this.updateDisplayedEntities();
+              }
               this.messageService.add({
                 severity: 'success',
                 summary: 'Successful',
                 detail: "L'Objet a été modifiée avec succès",
                 life: 3000,
               });
-              this.entitys[this.findIndexById(index)] = {
-                id: data.id,
-                email: data.email,
-                password: data.password,
-                status: data.status,
-              };
+              // this.entitys[this.findIndexById(index)] = {
+              //   id: data.id,
+              //   email: data.email,
+              //   password: data.password,
+              //   status: data.status,
+              // };
+              
               this.entitys = [...this.entitys];
+
             },
             (error) => {
               console.log(error);
@@ -235,6 +292,9 @@ export class AdminComponent implements OnInit, AfterViewInit {
           })
           .subscribe(
             (data: Admin) => {
+              this.entitys = [...this.entitys, data];
+              this.filteredEntitys = [...this.filteredEntitys, data];
+              this.updateDisplayedEntities();
               this.entitys.push({
                 id: data.id,
                 email: data.email,
@@ -247,7 +307,7 @@ export class AdminComponent implements OnInit, AfterViewInit {
                 detail: 'Admin Created',
                 life: 3000,
               });
-              this.entitys = [...this.entitys];
+          
             },
             (error) => {
               this.messageService.add({
@@ -259,12 +319,11 @@ export class AdminComponent implements OnInit, AfterViewInit {
             }
           );
       }
+      
       this.entityDialog = false;
       this.entity = {};
     }
   }
 
-  clear(table: Table) {
-    table.clear();
-  }
+
 }
